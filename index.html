@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galaxy Profile Hub</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  background: black;
+}
+
+/* 🌌 GALAXY */
+.galaxy {
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 20% 20%, #3a0ca3, transparent 40%),
+              radial-gradient(circle at 80% 30%, #4361ee, transparent 40%),
+              radial-gradient(circle at 50% 80%, #7209b7, transparent 40%),
+              black;
+  filter: blur(12px);
+  animation: move 25s linear infinite;
+}
+
+@keyframes move {
+  0% { transform: translate(0,0); }
+  50% { transform: translate(-8%, -5%); }
+  100% { transform: translate(0,0); }
+}
+
+/* ✨ particles */
+canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+/* 🪪 CARD */
+.card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+
+  width: 340px;
+  padding: 25px;
+  border-radius: 22px;
+
+  background: rgba(20,20,30,0.6);
+  backdrop-filter: blur(15px);
+  box-shadow: 0 0 50px rgba(120, 0, 255, 0.35);
+  text-align: center;
+
+  animation: float 5s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,100% { transform: translate(-50%, -50%); }
+  50% { transform: translate(-50%, -53%); }
+}
+
+/* 📸 FOTO */
+.avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 2px solid #7b2cbf;
+  box-shadow: 0 0 20px #7b2cbf;
+  object-fit: cover;
+}
+
+h1 {
+  color: white;
+  font-size: 18px;
+  margin-top: 8px;
+}
+
+.subtitle {
+  color: #aaa;
+  font-size: 11px;
+  margin-bottom: 10px;
+}
+
+.status {
+  color: #c77dff;
+  font-size: 11px;
+}
+
+.mood {
+  color: #aaa;
+  font-size: 11px;
+  margin-bottom: 10px;
+}
+
+/* 🔗 SOCIAL LINKS */
+.socials {
+  margin-top: 12px;
+  text-align: left;
+}
+
+.socials h3 {
+  color: white;
+  font-size: 11px;
+  margin-bottom: 6px;
+}
+
+.social {
+  display: block;
+  background: rgba(255,255,255,0.06);
+  padding: 8px;
+  margin-bottom: 6px;
+  border-radius: 10px;
+  font-size: 11px;
+  color: #ccc;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.social:hover {
+  transform: translateX(4px);
+  background: rgba(123,44,191,0.25);
+  color: white;
+}
+</style>
+</head>
+
+<body>
+
+<div class="galaxy"></div>
+<canvas id="particles"></canvas>
+
+<div class="card">
+  <h1>Pedro Henrique </h1>
+  <div class="subtitle">Galaxy Profile Hub • Digital Presence</div>
+
+  <div class="status">🟣 Online</div>
+  <div class="mood">🌙 Calm • 🌌 Exploring • 🎧 Focused</div>
+
+  <!-- 🌐 REDES SOCIAIS -->
+  <div class="socials">
+    <h3>🌐 REDES SOCIAIS</h3>
+
+    <a class="social" href="https://www.instagram.com/callmepedroluitgards?utm_source=qr&igsh=Ym0wMmZxbXpob2h5" target="_blank">
+      📱 Instagram
+    </a>
+
+    <a class="social" href="https://pin.it/46vno5BR1" target="_blank">
+      📌 Pinterest
+    </a>
+
+    <a class="social" href="https://discord.com/users/p3dr1nhml." target="_blank">
+      💬 Discord
+    </a>
+
+    <a class="social" href="https://steamcommunity.com/profiles/76561199690452077/" target="_blank">
+      🎮 Steam
+    </a>
+
+    <a class="social" href="https://tracker.gg/valorant/profile/riot/Myrkvaen%237Nox/overview?platform=pc&playlist=unrated&season=ce2783e8-44fc-dd48-3da3-33b5ba6c4a22" target="_blank">
+      🔴 Riot / Valorant
+    </a>
+  </div>
+
+</div>
+
+<script>
+
+/* ✨ particles */
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let mouse = { x: null, y: null };
+
+window.addEventListener("mousemove", e => {
+  mouse.x = e.x;
+  mouse.y = e.y;
+});
+
+class Particle {
+  constructor() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.baseX = this.x;
+    this.baseY = this.y;
+    this.size = Math.random() * 2;
+  }
+
+  update() {
+    let dx = mouse.x - this.x;
+    let dy = mouse.y - this.y;
+    let dist = Math.sqrt(dx*dx + dy*dy);
+
+    if (dist < 130) {
+      this.x -= dx / 25;
+      this.y -= dy / 25;
+    } else {
+      this.x += (this.baseX - this.x) * 0.02;
+      this.y += (this.baseY - this.y) * 0.02;
+    }
+  }
+
+  draw() {
+    ctx.fillStyle = "rgba(200,200,255,0.7)";
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
+    ctx.fill();
+  }
+}
+
+let particles = [];
+for (let i = 0; i < 120; i++) {
+  particles.push(new Particle());
+}
+
+function animate() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  particles.forEach(p => {
+    p.update();
+    p.draw();
+  });
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+
+window.addEventListener("resize", () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+
+</script>
+
+</body>
+</html>
